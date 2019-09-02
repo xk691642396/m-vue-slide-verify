@@ -14,7 +14,7 @@
                         <h1 class="log-title-en">User Login</h1>
                         <input type="text" id="account"  v-model="account" placeholder="手机号/邮箱"/>
                         <input type="password" id="pwd" v-model="pwd" placeholder="登陆密码" />
-                        <slide-verify height="40" sliderBg="#5BBFDE" id="mslide" @call-back="verifyCb"></slide-verify>
+                        <slide-verify height="40" slideBg="#5BBFDE" id="mslide" @call-back="verifyCb"></slide-verify>
                         <span class="error-remind">{{errorRemind}}</span>
                         <a class="btn-login blueClick" @click="btnLogin">登陆</a>
                         <div class="footer clearfix">

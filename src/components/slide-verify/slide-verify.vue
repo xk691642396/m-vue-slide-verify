@@ -1,9 +1,9 @@
 <template>
    <section id="slide" >
-       <div ref="uiSliderWrap" class="ui-slider-wrap" :style="{width:((width.indexOf('%'))>-1?width:width+'px'),height:height+'px'}">
-           <div class="ui-slider-text ui-slider-noselect" :class="isMouse?'ui-sliderlock':'colorWhite'" :style="{lineHeight:height+'px'}">{{sliderTxtShow}}</div>
-           <div ref="uiSliderBtn" class="ui-slider-btn init" :class="isMouse?'':'success'" :style="{height:height+'px',width:height+'px',transform:'translateX('+slideLen+'px)'} " @mousedown="isMouse&&downListen()" @touchstart="isMouse&&downListen()"></div>
-           <div class="ui-slider-bg" :style="{width:slideLen+'px',height:height+'px',background:sliderBg}"></div>
+       <div ref="uislideWrap" class="ui-slide-wrap" :style="{width:((width.indexOf('%'))>-1?width:width+'px'),height:height+'px'}">
+           <div class="ui-slide-text ui-slide-noselect" :class="isMouse?'ui-slidelock':'colorWhite'" :style="{lineHeight:height+'px'}">{{slideTxtShow}}</div>
+           <div ref="uislideBtn" class="ui-slide-btn init" :class="isMouse?'':'success'" :style="{height:height+'px',width:height+'px',transform:'translateX('+slideLen+'px)'} " @mousedown="isMouse&&downListen()" @touchstart="isMouse&&downListen()"></div>
+           <div class="ui-slide-bg" :style="{width:slideLen+'px',height:height+'px',background:slideBg}"></div>
        </div>
    </section>
 </template>
@@ -15,7 +15,7 @@ export default {
             slideLen:0,
             positionX:0,
             isMouse:true,//是否验证成功
-            sliderTxtShow:this.sliderTxt
+            slideTxtShow:this.slideTxt
         }
     },
     props:{
@@ -27,11 +27,11 @@ export default {
             type:[Number,String],
             default:34
         },
-        sliderTxt:{
+        slideTxt:{
             type:String,
             default:"请按住滑块，拖动到最右边"
         },
-        sliderBg:{
+        slideBg:{
             type:String,
             default:"#7AC23C"
         }
@@ -51,7 +51,7 @@ export default {
         mouseListen(){//鼠标事件监听
             var _this = this;
             document.onselectstart = function(){return false;}; //取消字段选择功能
-            var _offsetWidth = _this.$refs.uiSliderWrap.offsetWidth;
+            var _offsetWidth = _this.$refs.uislideWrap.offsetWidth;
             var regExplore=/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i;
             if(/*"ontouchend" in document*/regExplore.test(navigator.userAgent)){
                 document.addEventListener("touchmove",_this.addtouchmove);
@@ -80,7 +80,7 @@ export default {
         verifySuccess(){
             var _this = this;
             _this.isMouse=false;
-            _this.sliderTxtShow="验证成功";
+            _this.slideTxtShow="验证成功";
             document.onmousemove=null;
             document.onselectstart=null;
             document.onmouseup=null;
@@ -92,7 +92,7 @@ export default {
         //移动滑动端监听
         addtouchmove(e){
             var _this = this;
-            var _offsetWidth = _this.$refs.uiSliderWrap.offsetWidth;
+            var _offsetWidth = _this.$refs.uislideWrap.offsetWidth;
             var e = e||window.event;
             var movePositionX = e.targetTouches[0].pageX;
             var movelen = movePositionX - _this.positionX;
@@ -107,7 +107,7 @@ export default {
             var _this = this;
             document.onselectstart=null;
             document.removeEventListener("touchmove",_this.addtouchmove);
-            _this.$refs.uiSliderBtn.removeEventListener("touchstart",_this.downListen);
+            _this.$refs.uislideBtn.removeEventListener("touchstart",_this.downListen);
             _this.slideLen=0;
             _this.positionX=0;
             
@@ -120,16 +120,16 @@ export default {
     .colorWhite{
         color: #fff;
     }
-    .ui-slider-wrap {
+    .ui-slide-wrap {
         background: #e8e8e8;
         position: relative;
     }
 
-    .ui-slider-wrap .ui-slider-bg {
+    .ui-slide-wrap .ui-slide-bg {
         width: 0;background-color: #7AC23C;
     }
 
-    .ui-slider-wrap .ui-slider-btn {
+    .ui-slide-wrap .ui-slide-btn {
         position: absolute;
         top: 0;
         left: 0;
@@ -144,15 +144,15 @@ export default {
         box-sizing: border-box;
     }
 
-    .ui-slider-wrap .ui-slider-btn {
-        background: #fff url(./img/slider.png) no-repeat center;
+    .ui-slide-wrap .ui-slide-btn {
+        background: #fff url(./img/slide.png) no-repeat center;
     }
 
-    .ui-slider-wrap .ui-slider-btn.success {
+    .ui-slide-wrap .ui-slide-btn.success {
         background-image: url(./img/success.png);
     }
 
-    .ui-slider-wrap .ui-slider-text {
+    .ui-slide-wrap .ui-slide-text {
         width: 100%;
         height: 100%;
         font-family: "微软雅黑";
@@ -162,7 +162,7 @@ export default {
         left: 0;
     }
 
-    .ui-slider-wrap .ui-slider-no-select {
+    .ui-slide-wrap .ui-slide-no-select {
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
@@ -170,15 +170,15 @@ export default {
         user-select: none;
     }
 
-    .ui-sliderlock {
+    .ui-slidelock {
         background: -webkit-gradient(linear, left top, right top, color-stop(0, #4d4d4d), color-stop(.4, #4d4d4d), color-stop(.5, #fff), color-stop(.6, #4d4d4d), color-stop(1, #4d4d4d));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        -webkit-animation: sliderlock 2.6s infinite;
+        -webkit-animation: slidelock 2.6s infinite;
         -webkit-text-size-adjust: none;
     }
 
-    @keyframes sliderlock {
+    @keyframes slidelock {
         0% {
             background-position: -140px 0;
         }
